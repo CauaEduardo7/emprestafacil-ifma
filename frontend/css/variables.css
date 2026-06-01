@@ -1,0 +1,38 @@
+/* ============================================
+   EmprestaFácil — Design Tokens
+   ============================================ */
+:root {
+  --green-50:  #e8f5ee;
+  --green-100: #c8e6d4;
+  --green-400: #2da066;
+  --green-500: #1a7a4a;
+  --green-600: #0f5232;
+  --gold-400:  #e8a020;
+  --color-primary:       #1a7a4a;
+  --color-primary-light: #e8f5ee;
+  --color-primary-dark:  #0f5232;
+  --color-accent:        #e8a020;
+  --bg:       #f7f8fa;
+  --surface:  #ffffff;
+  --border:   #e4e7ec;
+  --border-2: #d0d5dd;
+  --text-1:   #101828;
+  --text-2:   #475467;
+  --text-3:   #98a2b3;
+  --success-bg:   #e8f5ee;
+  --success-text: #0f5232;
+  --warning-bg:   #fef3c7;
+  --warning-text: #92400e;
+  --danger-bg:    #fee2e2;
+  --danger-text:  #991b1b;
+  --radius-sm: 8px;
+  --radius:    12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --font-display: 'Sora', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --navbar-h:  56px;
+  --bottomnav-h: 64px;
+}
