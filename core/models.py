@@ -26,14 +26,16 @@ CAMPUS_CHOICES = [
 ]
 
 CURSO_CHOICES = [
-    ('sistemas_informacao', 'Sistemas de Informação'),
     ('engenharia_civil', 'Engenharia Civil'),
     ('engenharia_eletrica_industrial', 'Engenharia Elétrica Industrial'),
     ('engenharia_mecanica_industrial', 'Engenharia Mecânica Industrial'),
-    ('biologia', 'Biologia'),
+    ('sistemas_informacao', 'Sistemas de Informação'),
+    ('design', 'Design'),
+    ('ciencias_biologicas', 'Ciências Biológicas'),
     ('fisica', 'Física'),
     ('matematica', 'Matemática'),
     ('quimica', 'Química'),
+    ('processos_quimicos', 'Processos Químicos'),
 ]
 
 CATEGORIA_CHOICES = [
