@@ -191,6 +191,9 @@ textarea {
   bottom: 0;
   z-index: 200;
   width: 100%;
+  /* Garante que ocupa a largura total em todos os breakpoints */
+  left: 0;
+  right: 0;
 }
 
 .bn-item {
@@ -229,6 +232,7 @@ textarea {
   box-shadow: 0 4px 16px rgba(26, 122, 74, .4);
   cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s;
+  flex-shrink: 0;
 }
 
 .bn-fab:hover {
@@ -1318,7 +1322,6 @@ select.form-control {
   from {
     transform: translateY(100%);
   }
-
   to {
     transform: translateY(0);
   }
@@ -1371,7 +1374,7 @@ select.form-control {
    Responsividade
    ============================================ */
 
-/* Celular pequeno */
+/* Celular pequeno (< 420px) */
 @media (max-width: 420px) {
   .items-grid {
     grid-template-columns: 1fr 1fr;
@@ -1391,10 +1394,7 @@ select.form-control {
     height: 115px;
   }
 
-  .card-name {
-    font-size: 12px;
-  }
-
+  .card-name,
   .card-price {
     font-size: 12px;
   }
@@ -1404,16 +1404,8 @@ select.form-control {
   }
 }
 
-/* Tablet */
+/* Tablet (768px+) */
 @media (min-width: 768px) {
-  .navbar,
-  .scroll-area,
-  .bottom-nav {
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   .items-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 14px;
@@ -1435,16 +1427,56 @@ select.form-control {
     flex: initial;
     margin-bottom: 40px;
   }
-}
 
-/* Notebook e desktop */
-@media (min-width: 1024px) {
+  /* Navbar e scroll-area centralizados */
   .navbar,
-  .scroll-area,
-  .bottom-nav {
-    max-width: 1100px;
+  .scroll-area {
+    max-width: 760px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  /* Bottom-nav ocupa largura total mas limita conteúdo interno */
+  .bottom-nav {
+    width: 100%;
+    max-width: 100%;
+    left: 0;
+    right: 0;
+    transform: none;
+  }
+
+  /* Wrapper interno do bottom-nav para centralizar os itens */
+  .bottom-nav > * {
+    max-width: 760px;
+  }
+
+  .bottom-nav {
+    justify-content: center;
+  }
+
+  .bottom-nav .bn-item,
+  .bottom-nav .bn-fab {
+    /* itens se distribuem dentro de um max-width */
+  }
+}
+
+/* Notebook e desktop (1024px+) */
+@media (min-width: 1024px) {
+  /* Wrappers de conteúdo centralizados */
+  .navbar,
+  .scroll-area,
+  #dashboard-container,
+  #detail-container,
+  #profile-container {
+    max-width: 1180px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .scroll-area {
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
   .navbar {
@@ -1452,54 +1484,84 @@ select.form-control {
     border-right: 1px solid var(--border);
   }
 
-  .scroll-area {
-    padding-left: 8px;
-    padding-right: 8px;
+  /* Bottom-nav: ocupa 100% da largura da tela,
+     mas centraliza seu conteúdo interno com max-width */
+  .bottom-nav {
+    width: 100%;
+    max-width: 100%;
+    left: 0;
+    right: 0;
+    transform: none;
+    display: flex;
+    justify-content: center;
+    border-radius: 0;
+    /* Remove o border-radius que estava sendo aplicado equivocadamente */
   }
 
+  /* Cria um wrapper virtual centrando os itens dentro da nav */
+  .bottom-nav::before {
+    content: '';
+    display: none;
+  }
+
+  /* Os itens da bottom-nav ficam limitados a 1180px de largura */
+  .bottom-nav {
+    padding: 0 calc((100% - 1180px) / 2);
+  }
+
+  /* Botão FAB corretamente posicionado dentro da nav */
+  .bn-fab {
+    margin-top: -20px;
+    flex-shrink: 0;
+  }
+
+  /* Grids */
   .items-grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    gap: 18px;
   }
 
   .card-thumb {
-    height: 160px;
+    height: 170px;
   }
 
   .promo-banner {
-    padding: 22px 24px;
+    padding: 24px 28px;
   }
 
   .promo-banner-text h3 {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .promo-banner-text p {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .section-title {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .stats-grid {
     grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  .profile-stats-row {
+    gap: 18px;
   }
 
   .auth-wrap {
     max-width: 620px;
   }
 
+  /* Elementos de página interna */
   .detail-hero,
   .detail-body,
   .profile-hero,
-  .profile-stats-row,
   .info-section,
-  .dash-header,
-  #dashboard-container,
-  #detail-container,
-  #profile-container {
-    max-width: 900px;
+  .dash-header {
+    max-width: 1180px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
   }
@@ -1512,14 +1574,34 @@ select.form-control {
   }
 }
 
-/* Desktop largo */
+/* Desktop largo (1280px+) */
 @media (min-width: 1280px) {
   .navbar,
   .scroll-area,
-  .bottom-nav {
-    max-width: 1180px;
+  #dashboard-container,
+  #detail-container,
+  #profile-container,
+  .detail-hero,
+  .detail-body,
+  .profile-hero,
+  .info-section,
+  .dash-header {
+    max-width: 1280px;
   }
+
+  /* Reajusta o padding da bottom-nav para 1280px */
+  .bottom-nav {
+    padding: 0 calc((100% - 1280px) / 2);
+  }
+
   .items-grid {
     grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Monitor muito largo (1600px+) — garante que nada se estique demais */
+@media (min-width: 1600px) {
+  .bottom-nav {
+    padding: 0 calc((100% - 1280px) / 2);
   }
 }
