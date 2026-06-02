@@ -462,6 +462,20 @@ function initPublish() {
   });
 }
 
+async function initDashboard() {
+  if (!checkAuth()) return;
+
+  const container = el('#dashboard-container');
+  setLoading(container, true);
+
+  try {
+    const data = await Dashboard.dados();
+    renderDashboard(data, container);
+  } catch (err) {
+    container.innerHTML = `<div class="empty-state"><i class="ti ti-wifi-off"></i><h3>Erro</h3><p>${err.message}</p></div>`;
+  }
+}
+
 function renderDashboard(data, container) {
   const recentHtml = data.emprestimos_recentes.map(e => `
     <div class="list-item">
