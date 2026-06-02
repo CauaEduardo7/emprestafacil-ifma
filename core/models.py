@@ -23,26 +23,17 @@ class AlunoManager(BaseUserManager):
 
 CAMPUS_CHOICES = [
     ('monte_castelo', 'São Luís - Monte Castelo'),
-    ('maracana', 'São Luís - Maracanã'),
-    ('imperatriz', 'Imperatriz'),
-    ('caxias', 'Caxias'),
-    ('timon', 'Timon'),
-    ('bacabal', 'Bacabal'),
-    ('codo', 'Codó'),
-    ('acailandia', 'Açailândia'),
-    ('outro', 'Outro'),
 ]
 
 CURSO_CHOICES = [
-    ('ads', 'Tecnologia em ADS'),
-    ('internet', 'Informática para Internet'),
-    ('edificacoes', 'Edificações'),
-    ('eletrotecnica', 'Eletrotécnica'),
-    ('administracao', 'Administração'),
-    ('logistica', 'Logística'),
+    ('sistemas_informacao', 'Sistemas de Informação'),
+    ('engenharia_civil', 'Engenharia Civil'),
+    ('engenharia_eletrica_industrial', 'Engenharia Elétrica Industrial'),
+    ('engenharia_mecanica_industrial', 'Engenharia Mecânica Industrial'),
+    ('biologia', 'Biologia'),
+    ('fisica', 'Física'),
+    ('matematica', 'Matemática'),
     ('quimica', 'Química'),
-    ('agroindustria', 'Agroindústria'),
-    ('outro', 'Outro'),
 ]
 
 CATEGORIA_CHOICES = [
@@ -96,9 +87,24 @@ class Aluno(AbstractBaseUser, PermissionsMixin):
     )
     email = models.EmailField(unique=True)
     telefone = models.CharField(max_length=20, blank=True)
-    curso = models.CharField(max_length=50, choices=CURSO_CHOICES, default='ads')
-    campus = models.CharField(max_length=50, choices=CAMPUS_CHOICES, default='monte_castelo')
-    foto = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)
+
+    curso = models.CharField(
+        max_length=50,
+        choices=CURSO_CHOICES,
+        default='sistemas_informacao'
+    )
+
+    campus = models.CharField(
+        max_length=50,
+        choices=CAMPUS_CHOICES,
+        default='monte_castelo'
+    )
+
+    foto = models.ImageField(
+        upload_to='fotos_perfil/',
+        blank=True,
+        null=True
+    )
 
     avaliacao_media = models.DecimalField(max_digits=3, decimal_places=1, default=5.0)
     total_avaliacoes = models.PositiveIntegerField(default=0)

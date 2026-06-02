@@ -60,7 +60,7 @@ const Auth = {
     const res = await post('/auth/cadastro/', data);
     localStorage.setItem('ef_token', res.token);
     localStorage.setItem('ef_user', JSON.stringify(res.user));
-    return res;
+    return res
   },
 
   async login(email, password) {
