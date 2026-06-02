@@ -275,7 +275,7 @@ function renderDetail(item, container) {
   const cat = CATEGORIAS[item.categoria] || { emoji: '📦' };
   const owner = item.dono || {};
   const avs = initials(owner.nome || '');
-  const thumbSrc = item.foto ? `http://localhost:8000${item.foto}` : null;
+  const thumbSrc = item.foto || null;
   const user = Auth.getUser();
 
   container.innerHTML = `

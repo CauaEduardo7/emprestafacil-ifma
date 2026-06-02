@@ -197,12 +197,15 @@ function initials(name = '') {
 ───────────────────────────────────────── */
 
 function buildItemCard(item, onClick) {
+  console.log('ITEM:', item);
+  console.log('FOTO:', item.foto);
+
   const cat = CATEGORIAS[item.categoria] || { emoji: '📦', label: 'Outro' };
   const avail = item.disponivel;
 
   const thumb = item.foto
-    ? `<img src="http://localhost:8000${item.foto}" alt="${item.nome}" loading="lazy">`
-    : `<span style="font-size:2.5rem">${cat.emoji}</span>`;
+  ? `<img src="${item.foto}" alt="${item.nome}" loading="lazy">`
+  : `<span style="font-size:2.5rem">${cat.emoji}</span>`;
 
   const card = document.createElement('div');
   card.className = 'item-card';
