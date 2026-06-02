@@ -378,6 +378,10 @@ function renderDetail(item, container) {
 function initPublish() {
   if (!checkAuth()) return;
 
+  // Evita registrar eventos várias vezes
+  if (window.publishInitialized) return;
+  window.publishInitialized = true;
+
   // Estado options
   els('.estado-opt').forEach(opt => {
     opt.addEventListener('click', () => {
@@ -390,6 +394,7 @@ function initPublish() {
   on('#photo-input', 'change', e => {
     const file = e.target.files[0];
     if (!file) return;
+
     const reader = new FileReader();
     reader.onload = ev => {
       el('#upload-preview').style.backgroundImage = `url(${ev.target.result})`;
@@ -403,7 +408,14 @@ function initPublish() {
     e.preventDefault();
     clearErrors();
 
+    const form = el('#form-publish');
+    const btn = el('#btn-publish');
+
+    if (form.dataset.submitting === 'true') return;
+    form.dataset.submitting = 'true';
+
     const estado = el('.estado-opt.active')?.dataset.estado || 'bom';
+
     const fd = new FormData();
     fd.append('nome', el('#pub-nome').value.trim());
     fd.append('categoria', el('#pub-categoria').value);
@@ -418,43 +430,36 @@ function initPublish() {
 
     if (!fd.get('nome') || !fd.get('categoria') || !fd.get('descricao')) {
       showToast('Preencha nome, categoria e descrição.', 'error');
+      form.dataset.submitting = 'false';
       return;
     }
 
-    const btn = el('#btn-publish');
     btn.disabled = true;
     btn.textContent = 'Publicando...';
+
     try {
       await Itens.criar(fd);
+
       showToast('Anúncio publicado com sucesso!', 'success');
-      el('#form-publish').reset();
+
+      form.reset();
       els('.estado-opt').forEach((o, i) => o.classList.toggle('active', i === 0));
+
+      const preview = el('#upload-preview');
+      const icon = el('#upload-icon');
+
+      if (preview) preview.style.backgroundImage = '';
+      if (icon) icon.style.display = '';
+
       goTo('home');
     } catch (err) {
       showToast(err.message, 'error');
     } finally {
+      form.dataset.submitting = 'false';
       btn.disabled = false;
       btn.textContent = 'Publicar anúncio';
     }
   });
-}
-
-/* ─────────────────────────────────────────
-   Página: DASHBOARD
-───────────────────────────────────────── */
-
-async function initDashboard() {
-  if (!checkAuth()) return;
-
-  const container = el('#dashboard-container');
-  setLoading(container, true);
-
-  try {
-    const data = await Dashboard.dados();
-    renderDashboard(data, container);
-  } catch (err) {
-    container.innerHTML = `<div class="empty-state"><i class="ti ti-wifi-off"></i><h3>Erro</h3><p>${err.message}</p></div>`;
-  }
 }
 
 function renderDashboard(data, container) {
