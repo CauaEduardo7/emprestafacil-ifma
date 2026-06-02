@@ -26,16 +26,16 @@ CAMPUS_CHOICES = [
 ]
 
 CURSO_CHOICES = [
-    ('engenharia_civil', 'Engenharia Civil'),
-    ('engenharia_eletrica_industrial', 'Engenharia Elétrica Industrial'),
-    ('engenharia_mecanica_industrial', 'Engenharia Mecânica Industrial'),
     ('sistemas_informacao', 'Sistemas de Informação'),
-    ('design', 'Design'),
-    ('ciencias_biologicas', 'Ciências Biológicas'),
-    ('fisica', 'Física'),
-    ('matematica', 'Matemática'),
+    ('ads', 'Tecnologia em Análise e Desenvolvimento de Sistemas'),
+    ('informatica', 'Informática'),
+    ('edificacoes', 'Edificações'),
+    ('eletrotecnica', 'Eletrotécnica'),
+    ('administracao', 'Administração'),
     ('quimica', 'Química'),
-    ('processos_quimicos', 'Processos Químicos'),
+    ('mecanica', 'Mecânica'),
+    ('eletronica', 'Eletrônica'),
+    ('seguranca_trabalho', 'Segurança do Trabalho'),
 ]
 
 CATEGORIA_CHOICES = [
@@ -82,11 +82,13 @@ DENUNCIA_STATUS = [
 
 class Aluno(AbstractBaseUser, PermissionsMixin):
     nome = models.CharField(max_length=150)
+
     matricula = models.CharField(
         max_length=20,
         unique=True,
         validators=[RegexValidator(r'^[A-Z0-9]+$', 'Matrícula inválida')]
     )
+
     email = models.EmailField(unique=True)
     telefone = models.CharField(max_length=20, blank=True)
 
@@ -108,7 +110,12 @@ class Aluno(AbstractBaseUser, PermissionsMixin):
         null=True
     )
 
-    avaliacao_media = models.DecimalField(max_digits=3, decimal_places=1, default=5.0)
+    avaliacao_media = models.DecimalField(
+        max_digits=3,
+        decimal_places=1,
+        default=0.0
+    )
+
     total_avaliacoes = models.PositiveIntegerField(default=0)
 
     emprestimos_realizados = models.PositiveIntegerField(default=0)
@@ -117,11 +124,13 @@ class Aluno(AbstractBaseUser, PermissionsMixin):
     is_ativo = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_bloqueado = models.BooleanField(default=False)
+
     data_cadastro = models.DateTimeField(auto_now_add=True)
     ultimo_acesso = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['matricula', 'nome']
+
     objects = AlunoManager()
 
     class Meta:
@@ -137,15 +146,16 @@ class Aluno(AbstractBaseUser, PermissionsMixin):
         return self.is_ativo and not self.is_bloqueado
 
     def recalcular_avaliacao(self):
-        avs = self.avaliacoes_recebidas.all()
-        total = avs.count()
+        from django.db.models import Avg
 
-        if total:
-            from django.db.models import Avg
-            media = avs.aggregate(m=Avg('nota'))['m'] or 5.0
+        avaliacoes = self.avaliacoes_recebidas.all()
+        total = avaliacoes.count()
+
+        if total > 0:
+            media = avaliacoes.aggregate(media=Avg('nota'))['media'] or 0
             self.avaliacao_media = round(media, 1)
         else:
-            self.avaliacao_media = 5.0
+            self.avaliacao_media = 0.0
 
         self.total_avaliacoes = total
         self.save(update_fields=['avaliacao_media', 'total_avaliacoes'])
@@ -180,19 +190,28 @@ class Emprestimo(models.Model):
         on_delete=models.CASCADE,
         related_name='emprestimos_solicitados'
     )
+
     dono = models.ForeignKey(
         Aluno,
         on_delete=models.CASCADE,
         related_name='emprestimos_cedidos'
     )
+
     item = models.ForeignKey(
         Item,
         on_delete=models.CASCADE,
         related_name='emprestimos'
     )
+
     prazo_combinado = models.CharField(max_length=100, blank=True)
     data_prevista_devolucao = models.DateField(null=True, blank=True)
-    status = models.CharField(max_length=20, choices=EMPRESTIMO_STATUS, default='pendente')
+
+    status = models.CharField(
+        max_length=20,
+        choices=EMPRESTIMO_STATUS,
+        default='pendente'
+    )
+
     observacoes = models.TextField(blank=True)
     data_solicitacao = models.DateTimeField(auto_now_add=True)
     data_devolucao = models.DateTimeField(null=True, blank=True)
@@ -215,6 +234,7 @@ class Emprestimo(models.Model):
             self.status = 'atrasado'
             self.save(update_fields=['status'])
             return True
+
         return False
 
 
@@ -224,19 +244,23 @@ class Avaliacao(models.Model):
         on_delete=models.CASCADE,
         related_name='avaliacao'
     )
+
     avaliador = models.ForeignKey(
         Aluno,
         on_delete=models.CASCADE,
         related_name='avaliacoes_feitas'
     )
+
     avaliado = models.ForeignKey(
         Aluno,
         on_delete=models.CASCADE,
         related_name='avaliacoes_recebidas'
     )
+
     nota = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
+
     comentario = models.TextField(blank=True)
     data_criacao = models.DateTimeField(auto_now_add=True)
 
@@ -259,6 +283,7 @@ class Denuncia(models.Model):
         on_delete=models.CASCADE,
         related_name='denuncias_feitas'
     )
+
     item = models.ForeignKey(
         Item,
         on_delete=models.CASCADE,
@@ -266,6 +291,7 @@ class Denuncia(models.Model):
         null=True,
         blank=True
     )
+
     usuario_denunciado = models.ForeignKey(
         Aluno,
         on_delete=models.CASCADE,
@@ -273,6 +299,7 @@ class Denuncia(models.Model):
         null=True,
         blank=True
     )
+
     motivo = models.CharField(max_length=50, choices=DENUNCIA_MOTIVO)
     descricao = models.TextField()
     status = models.CharField(max_length=20, choices=DENUNCIA_STATUS, default='pendente')

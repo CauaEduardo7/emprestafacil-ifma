@@ -170,7 +170,6 @@ async function initHome() {
   });
 
   on('#btn-apply-filter', 'click', () => {
-    catalogParams.campus = el('#filter-campus').value;
     catalogParams.curso = el('#filter-curso').value;
     catalogParams.disponivel = el('#filter-disponivel').value;
     catalogParams.ordenar = el('#filter-order').value;
@@ -181,7 +180,6 @@ async function initHome() {
 
   on('#btn-clear-filter', 'click', () => {
     catalogParams = {};
-    el('#filter-campus').value = '';
     el('#filter-curso').value = '';
     el('#filter-disponivel').value = '';
     el('#filter-order').value = 'recente';
