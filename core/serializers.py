@@ -8,15 +8,23 @@ from .models import Aluno, Item, Emprestimo, Avaliacao, Denuncia
 
 class AlunoPublicoSerializer(serializers.ModelSerializer):
     campus_display = serializers.CharField(source='get_campus_display', read_only=True)
-    curso_display  = serializers.CharField(source='get_curso_display', read_only=True)
+    curso_display = serializers.CharField(source='get_curso_display', read_only=True)
 
     class Meta:
-        model  = Aluno
+        model = Aluno
         fields = [
-            'id', 'nome', 'curso', 'curso_display',
-            'campus', 'campus_display', 'foto',
-            'avaliacao_media', 'total_avaliacoes',
-            'emprestimos_realizados', 'emprestimos_concluidos',
+            'id',
+            'nome',
+            'telefone',  # <- ADICIONADO
+            'curso',
+            'curso_display',
+            'campus',
+            'campus_display',
+            'foto',
+            'avaliacao_media',
+            'total_avaliacoes',
+            'emprestimos_realizados',
+            'emprestimos_concluidos',
         ]
 
 
