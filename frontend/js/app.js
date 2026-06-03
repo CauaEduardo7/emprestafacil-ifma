@@ -273,12 +273,26 @@ function renderDetail(item, container) {
   const cat = CATEGORIAS[item.categoria] || { emoji: '📦' };
   const owner = item.dono || {};
   const avs = initials(owner.nome || '');
-  const thumbSrc = item.foto || null;
+
+  const thumbSrc =
+    item.foto_url ||
+    item.foto ||
+    item.photo_url ||
+    item.photo ||
+    null;
+
   const user = Auth.getUser();
 
   container.innerHTML = `
     <div class="detail-hero">
-      ${thumbSrc ? `<img src="${thumbSrc}" alt="${item.nome}">` : `<span>${cat.emoji}</span>`}
+      ${thumbSrc
+        ? `<img
+            src="${thumbSrc}"
+            alt="${item.nome}"
+            onerror="this.style.display='none'; this.parentElement.innerHTML='<span>${cat.emoji}</span><button class=&quot;back-btn&quot; id=&quot;btn-back-detail&quot;><i class=&quot;ti ti-arrow-left&quot;></i></button>';"
+          >`
+        : `<span>${cat.emoji}</span>`
+      }
       <button class="back-btn" id="btn-back-detail"><i class="ti ti-arrow-left"></i></button>
     </div>
     <div class="detail-body">
@@ -302,21 +316,21 @@ function renderDetail(item, container) {
         </div>
         <div class="owner-rating">
           <i class="ti ti-star-filled" style="font-size:20px;color:var(--gold-400)"></i>
-          <span class="rate-val">${owner.avaliacao || '5.0'}</span>
+          <span class="rate-val">${owner.avaliacao ?? '0.0'}</span>
           <span class="rate-count">(${owner.total_avaliacoes || 0})</span>
         </div>
       </div>
 
-        <div class="price-block">
-  <div>
-    <div style="font-size:11px;color:var(--text-3)">Tipo de empréstimo</div>
-    <div class="price-val">Gratuito</div>
-  </div>
-  <div style="text-align:right">
-    <div style="font-size:11px;color:var(--text-3)">Prazo máximo</div>
-    <div style="font-size:14px;font-weight:600">${item.prazo_maximo}</div>
-  </div>
-</div>
+      <div class="price-block">
+        <div>
+          <div style="font-size:11px;color:var(--text-3)">Tipo de empréstimo</div>
+          <div class="price-val">Gratuito</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:var(--text-3)">Prazo máximo</div>
+          <div style="font-size:14px;font-weight:600">${item.prazo_maximo}</div>
+        </div>
+      </div>
 
       ${item.dono?.id !== user?.id ? `
         <button class="btn btn-whatsapp" id="btn-contact" style="margin-bottom:10px">
@@ -340,6 +354,7 @@ function renderDetail(item, container) {
   if (item.dono?.id !== user?.id) {
     const phone = item.dono?.telefone?.replace(/\D/g, '') || '';
     const msg = encodeURIComponent(`Olá! Vi seu anúncio do item "${item.nome}" no EmprestaFácil. Podemos combinar?`);
+
     on('#btn-contact', 'click', () => {
       if (phone) window.open(`https://wa.me/55${phone}?text=${msg}`, '_blank');
       else showToast('Telefone não disponível.', 'error');
@@ -355,20 +370,24 @@ function renderDetail(item, container) {
         await Itens.alterarDisponibilidade(item.id, !item.disponivel);
         showToast('Disponibilidade atualizada!', 'success');
         initDetail({});
-      } catch (err) { showToast(err.message, 'error'); }
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
     }, container);
 
     on('#btn-remove-item', 'click', async () => {
       if (!confirm('Tem certeza que deseja remover este anúncio?')) return;
+
       try {
         await Itens.remover(item.id);
         showToast('Anúncio removido.', 'success');
         goTo('home');
-      } catch (err) { showToast(err.message, 'error'); }
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
     }, container);
   }
 }
-
 /* ─────────────────────────────────────────
    Página: PUBLISH
 ───────────────────────────────────────── */
