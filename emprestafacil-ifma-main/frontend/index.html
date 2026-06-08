@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="EmprestaFácil — Plataforma de empréstimos gratuitos entre alunos do IFMA">
+  <meta name="theme-color" content="#1a7a4a">
+  <title>EmprestaFácil — IFMA</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+
+  <link rel="stylesheet" href="/static/css/variables.css">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+
+<body>
+  <div class="app-container">
+
+    <div id="page-auth" class="page active">
+      <div class="auth-wrap">
+        <div class="auth-logo-row">
+          <div class="auth-logo-pill">
+            <div class="auth-logo-pill-icon">🎓</div>
+            <span>EmprestaFácil</span>
+          </div>
+        </div>
+
+        <div class="auth-hero">
+          <h1>Empréstimos gratuitos entre alunos do IFMA</h1>
+          <p>Encontre ou disponibilize itens para a comunidade acadêmica</p>
+        </div>
+
+        <div class="auth-card">
+          <div class="tabs-row">
+            <button class="tab-btn active" data-tab="login">Entrar</button>
+            <button class="tab-btn" data-tab="cadastro">Cadastrar</button>
+          </div>
+
+          <div id="tab-login" class="tab-content active">
+            <form id="form-login" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="login-email">E-mail institucional</label>
+                <input id="login-email" class="form-control" type="email" placeholder="seunome@acad.ifma.edu.br"
+                  autocomplete="email">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="login-password">Senha</label>
+                <input id="login-password" class="form-control" type="password" placeholder="••••••••"
+                  autocomplete="current-password">
+              </div>
+              <button id="btn-login" class="btn btn-primary" type="submit">
+                <i class="ti ti-login"></i> Entrar
+              </button>
+              <button type="button" id="btn-esqueci-senha"
+                style="display:block;margin:10px auto 0;background:none;border:none;color:#198754;font-size:14px;font-weight:500;cursor:pointer;">
+                Esqueci minha senha
+              </button>
+              </a>
+              </p>
+            </form>
+          </div>
+
+          <div id="tab-cadastro" class="tab-content">
+            <form id="form-cadastro" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="cad-nome">Nome completo *</label>
+                <input id="cad-nome" class="form-control" type="text" placeholder="João Silva Santos">
+              </div>
+              <div class="form-row">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cad-matricula">Matrícula *</label>
+                  <input id="cad-matricula" class="form-control" type="text" placeholder="20221TADS01"
+                    style="text-transform:uppercase">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cad-telefone">Telefone</label>
+                  <input id="cad-telefone" class="form-control" type="tel" placeholder="(98) 99999-9999">
+                </div>
+              </div>
+              <div style="height:10px"></div>
+              <div class="form-group">
+                <label class="form-label" for="cad-curso">Curso *</label>
+                <select id="cad-curso" class="form-control">
+                  <option value="">Selecionar curso</option>
+                  <option value="sistemas_informacao">Sistemas de Informação</option>
+                  <option value="engenharia_civil">Engenharia Civil</option>
+                  <option value="engenharia_eletrica_industrial">Engenharia Elétrica Industrial</option>
+                  <option value="engenharia_mecanica_industrial">Engenharia Mecânica Industrial</option>
+                  <option value="biologia">Ciências Biológicas</option>
+                  <option value="fisica">Física</option>
+                  <option value="matematica">Matemática</option>
+                  <option value="quimica">Química</option>
+                  <option value="design">Design</option>
+                  <option value="processos_quimicos">Processos Químicos</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cad-campus">Campus *</label>
+                <select id="cad-campus" class="form-control">
+                  <option value="">Selecionar campus</option>
+                  <option value="monte_castelo">São Luís - Monte Castelo</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cad-email">E-mail institucional *</label>
+                <input id="cad-email" class="form-control" type="email" placeholder="seunome@acad.ifma.edu.br"
+                  autocomplete="email">
+              </div>
+              <div class="form-row">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cad-senha">Senha *</label>
+                  <input id="cad-senha" class="form-control" type="password" placeholder="Mín. 8 caracteres"
+                    autocomplete="new-password">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cad-senha2">Confirmar senha *</label>
+                  <input id="cad-senha2" class="form-control" type="password" placeholder="Repetir senha"
+                    autocomplete="new-password">
+                </div>
+              </div>
+              <div style="height:14px"></div>
+              <button id="btn-cadastro" class="btn btn-primary" type="submit">
+                <i class="ti ti-user-plus"></i> Criar conta
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-home" class="page">
+      <nav class="navbar">
+        <div class="nav-logo">
+          <div class="nav-logo-icon">🎓</div>
+          <span class="nav-logo-text">Empresta<span>Fácil</span></span>
+        </div>
+        <div class="nav-actions">
+          <button class="nav-btn" id="btn-filter" title="Filtros">
+            <i class="ti ti-adjustments-horizontal"></i>
+          </button>
+
+          <div class="avatar-nav" id="nav-avatar" onclick="void(0)">JS</div>
+        </div>
+      </nav>
+
+      <div class="scroll-area">
+        <div style="padding:12px 16px 6px">
+          <div class="search-bar">
+            <i class="ti ti-search"></i>
+            <input id="search-input" type="search" placeholder="Buscar itens, livros, eletrônicos..."
+              autocomplete="off">
+          </div>
+        </div>
+
+        <div class="chips-row">
+          <div class="chip cat-chip active" data-cat="">Todos</div>
+          <div class="chip cat-chip" data-cat="livros">📚 Livros</div>
+          <div class="chip cat-chip" data-cat="eletronicos">💻 Eletrônicos</div>
+          <div class="chip cat-chip" data-cat="academicos">📐 Acadêmicos</div>
+          <div class="chip cat-chip" data-cat="ferramentas">🔧 Ferramentas</div>
+          <div class="chip cat-chip" data-cat="equipamentos">⚙️ Equipamentos</div>
+          <div class="chip cat-chip" data-cat="moveis">🪑 Móveis</div>
+          <div class="chip cat-chip" data-cat="outros">📦 Outros</div>
+        </div>
+
+        <div class="promo-banner">
+          <div class="promo-banner-text">
+            <h3>Tem algo que não usa?</h3>
+            <p>Anuncie gratuitamente e ajude outro colega do IFMA!</p>
+            <span class="promo-btn" id="btn-promo-publish">Publicar agora</span>
+          </div>
+          <div class="promo-banner-icon">📦</div>
+        </div>
+
+        <div class="section-header">
+          <div class="section-title">Itens disponíveis</div>
+          <div class="see-all">Ver todos</div>
+        </div>
+
+        <div id="items-grid" class="items-grid">
+          <div class="loading-overlay" style="grid-column:1/-1">
+            <div class="spinner"></div>
+          </div>
+        </div>
+
+        <div id="pagination"></div>
+      </div>
+
+      <nav class="bottom-nav">
+        <div class="bn-item active" data-page="home">
+          <i class="ti ti-home"></i><span>Início</span>
+        </div>
+        <div class="bn-item" data-page="home" onclick="document.getElementById('search-input').focus()">
+          <i class="ti ti-search"></i><span>Buscar</span>
+        </div>
+        <div class="bn-item" data-page="publish">
+          <div class="bn-fab"><i class="ti ti-plus"></i></div>
+        </div>
+        <div class="bn-item" data-page="dashboard">
+          <i class="ti ti-chart-bar"></i><span>Stats</span>
+        </div>
+        <div class="bn-item" data-page="profile">
+          <i class="ti ti-user"></i><span>Perfil</span>
+        </div>
+      </nav>
+    </div>
+
+    <div id="page-detail" class="page">
+      <div class="scroll-area" style="padding-bottom:32px">
+        <div id="detail-container">
+          <div class="loading-overlay">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-publish" class="page">
+      <div class="navbar">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="nav-btn" onclick="window.history.back()" id="btn-back-publish">
+            <i class="ti ti-arrow-left"></i>
+          </button>
+          <span style="font-family:var(--font-display);font-size:15px;font-weight:700">Publicar item</span>
+        </div>
+      </div>
+
+      <div class="scroll-area" style="padding:16px 16px 0">
+        <form id="form-publish" novalidate>
+
+          <div id="upload-preview" class="upload-area" onclick="document.getElementById('photo-input').click()"
+            style="border-radius:var(--radius)">
+            <div id="upload-icon" style="text-align:center">
+              <i class="ti ti-camera-plus" style="font-size:2rem"></i>
+              <div style="margin-top:6px;font-size:13px">Adicionar fotos do item</div>
+              <small>Toque para selecionar · JPG/PNG</small>
+            </div>
+          </div>
+          <input id="photo-input" type="file" accept="image/*" style="display:none">
+
+          <div class="form-group">
+            <label class="form-label" for="pub-nome">Nome do item *</label>
+            <input id="pub-nome" class="form-control" type="text" placeholder="Ex.: Calculadora HP 50g">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pub-categoria">Categoria *</label>
+            <select id="pub-categoria" class="form-control">
+              <option value="">Selecionar categoria</option>
+              <option value="livros">📚 Livros</option>
+              <option value="eletronicos">💻 Eletrônicos</option>
+              <option value="academicos">📐 Materiais acadêmicos</option>
+              <option value="ferramentas">🔧 Ferramentas</option>
+              <option value="moveis">🪑 Móveis</option>
+              <option value="equipamentos">⚙️ Equipamentos</option>
+              <option value="outros">📦 Outros</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pub-descricao">Descrição *</label>
+            <textarea id="pub-descricao" class="form-control" rows="3"
+              placeholder="Descreva o item, condições e detalhes importantes..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pub-prazo">Prazo máximo</label>
+            <select id="pub-prazo" class="form-control">
+              <option value="1 dia">1 dia</option>
+              <option value="3 dias">3 dias</option>
+              <option value="1 semana" selected>1 semana</option>
+              <option value="2 semanas">2 semanas</option>
+              <option value="1 mês">1 mês</option>
+              <option value="Combinável">Combinável</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Estado do item</label>
+            <div class="estado-options">
+              <div class="estado-opt active" data-estado="novo">Novo</div>
+              <div class="estado-opt" data-estado="otimo">Ótimo</div>
+              <div class="estado-opt" data-estado="bom">Bom</div>
+              <div class="estado-opt" data-estado="regular">Regular</div>
+              <div class="estado-opt" data-estado="ruim">Ruim</div>
+              <div></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pub-obs">Observações</label>
+            <textarea id="pub-obs" class="form-control" rows="2"
+              placeholder="Horários disponíveis, local de retirada..."></textarea>
+          </div>
+
+          <button id="btn-publish" class="btn btn-primary" type="submit" style="margin-bottom:80px">
+            <i class="ti ti-check"></i> Publicar anúncio gratuito
+          </button>
+        </form>
+      </div>
+
+      <nav class="bottom-nav">
+        <div class="bn-item" data-page="home"><i class="ti ti-home"></i><span>Início</span></div>
+        <div class="bn-item" data-page="home"><i class="ti ti-search"></i><span>Buscar</span></div>
+        <div class="bn-item active" data-page="publish">
+          <div class="bn-fab"><i class="ti ti-plus"></i></div>
+        </div>
+        <div class="bn-item" data-page="dashboard"><i class="ti ti-chart-bar"></i><span>Stats</span></div>
+        <div class="bn-item" data-page="profile"><i class="ti ti-user"></i><span>Perfil</span></div>
+      </nav>
+    </div>
+
+    <div id="page-dashboard" class="page">
+      <nav class="navbar">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="nav-btn" data-page="home" id="btn-back-dash"><i class="ti ti-arrow-left"></i></button>
+          <span style="font-family:var(--font-display);font-size:15px;font-weight:700">Dashboard</span>
+        </div>
+        <button class="nav-btn" title="Exportar"><i class="ti ti-download"></i></button>
+      </nav>
+
+      <div class="scroll-area">
+        <div class="dash-header">
+          <h2>Visão geral</h2>
+          <p>Dados atualizados em tempo real</p>
+        </div>
+        <div id="dashboard-container">
+          <div class="loading-overlay">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="bottom-nav">
+        <div class="bn-item" data-page="home"><i class="ti ti-home"></i><span>Início</span></div>
+        <div class="bn-item" data-page="home"><i class="ti ti-search"></i><span>Buscar</span></div>
+        <div class="bn-item" data-page="publish">
+          <div class="bn-fab"><i class="ti ti-plus"></i></div>
+        </div>
+        <div class="bn-item active" data-page="dashboard"><i class="ti ti-chart-bar"></i><span>Stats</span></div>
+        <div class="bn-item" data-page="profile"><i class="ti ti-user"></i><span>Perfil</span></div>
+      </nav>
+    </div>
+
+    <div id="page-profile" class="page">
+      <div class="scroll-area">
+        <div id="profile-container">
+          <div class="loading-overlay">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="bottom-nav">
+        <div class="bn-item" data-page="home"><i class="ti ti-home"></i><span>Início</span></div>
+        <div class="bn-item" data-page="home"><i class="ti ti-search"></i><span>Buscar</span></div>
+        <div class="bn-item" data-page="publish">
+          <div class="bn-fab"><i class="ti ti-plus"></i></div>
+        </div>
+        <div class="bn-item" data-page="dashboard"><i class="ti ti-chart-bar"></i><span>Stats</span></div>
+        <div class="bn-item active" data-page="profile"><i class="ti ti-user"></i><span>Perfil</span></div>
+      </nav>
+    </div>
+
+    <div id="modal-filter" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <h3>Filtros</h3>
+
+
+        <div class="form-group">
+          <label class="form-label" for="filter-curso">Curso do anunciante</label>
+          <select id="filter-curso" class="form-control">
+            <option value="">Todos os cursos</option>
+            <option value="sistemas_informacao">Sistemas de Informação</option>
+            <option value="internet">Engenharia Elétrica Industrial</option>
+            <option value="edificacoes">Engenharia Mecânica Industrial</option>
+            <option value="eletrotecnica">Engenharia Civil</option>
+            <option value="administracao">Design</option>
+            <option value="administracao">Ciências Biológicas</option>
+            <option value="administracao">Física</option>
+            <option value="administracao">Matemática</option>
+            <option value="administracao">Química</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="filter-disponivel">Disponibilidade</label>
+          <select id="filter-disponivel" class="form-control">
+            <option value="">Todos</option>
+            <option value="true">Apenas disponíveis</option>
+            <option value="false">Apenas ocupados</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="filter-order">Ordenar por</label>
+          <select id="filter-order" class="form-control">
+            <option value="recente">Mais recentes</option>
+            <option value="avaliacao">Melhor avaliado</option>
+          </select>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <button id="btn-clear-filter" class="btn btn-outline" style="flex:1">Limpar</button>
+          <button id="btn-apply-filter" class="btn btn-primary" style="flex:2">Aplicar filtros</button>
+        </div>
+        <button id="modal-filter-close" class="btn btn-danger btn-sm"
+          style="width:100%;margin-top:8px">Cancelar</button>
+      </div>
+    </div>
+
+    <div id="modal-report" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <h3><i class="ti ti-flag" style="color:var(--danger-text)"></i> Denunciar anúncio</h3>
+        <input type="hidden" id="report-item-id">
+
+        <div class="form-group">
+          <label class="form-label" for="report-motivo">Motivo</label>
+          <select id="report-motivo" class="form-control">
+            <option value="">Selecionar motivo</option>
+            <option value="conteudo_inadequado">Conteúdo inadequado</option>
+            <option value="golpe">Golpe ou fraude</option>
+            <option value="informacao_falsa">Informações falsas</option>
+            <option value="item_proibido">Item proibido</option>
+            <option value="comportamento">Comportamento inadequado</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="report-desc">Descrição</label>
+          <textarea id="report-desc" class="form-control" rows="3"
+            placeholder="Descreva o problema detalhadamente..."></textarea>
+        </div>
+
+        <button id="btn-send-report" class="btn btn-primary">
+          <i class="ti ti-send"></i> Enviar denúncia
+        </button>
+        <button id="modal-report-close" class="btn btn-danger btn-sm"
+          style="width:100%;margin-top:8px">Cancelar</button>
+      </div>
+    </div>
+
+  </div>
+
+  <template id="nav-avatar-tpl"><span id="nav-avatar-2"></span></template>
+
+  <script type="module" src="/static/js/app.js"></script>
+
+</body>
+
+</html>
